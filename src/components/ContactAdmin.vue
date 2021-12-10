@@ -1,6 +1,6 @@
 <template>
     <h1 class="titulo">SOLICITUDES DE CONTACTOS </h1>
-    <div class="bloque">
+    <div class="bloque1">
         <nav class="search">
             <h2>BUSQUEDA</h2>
             <div class="buscar1">
@@ -19,6 +19,7 @@
                 <th>FECHA DE CREACION</th>
             </tr>
             <tr v-for="contact in getAllContactActive" :key="getAllContactActive.contact_id">
+                <td  v-on:click="ir_contact" class="link">{{contact.contact_id }}</td>
                 <td>{{contact.contact_id }}</td>
                 <td>{{contact.user_id}}</td>
                 <td>{{contact.assesory}}</td>
@@ -39,9 +40,9 @@ export default {
 
   },
   methods: {
-
-      
-
+      ir_contact: function (){
+          this.$router.push({name: "ContactD"});
+      }      
   },
 
   apollo:{

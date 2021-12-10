@@ -57,7 +57,9 @@ export default {
 
   },
   methods: {
-
+      ir_install: function (){
+          this.$router.push({name: "InstallD"});
+      },        
   },
 
   apollo:{
@@ -79,4 +81,12 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.link{
+    cursor: pointer;
+    
+}
+.link:hover{
+    text-decoration: underline;
+}
+</style>

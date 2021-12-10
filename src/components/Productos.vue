@@ -16,7 +16,7 @@
 
   <section class="gallery">
     <div class="contenedor">
-      <div class="contenedor-productos">
+      <!-- <div class="contenedor-productos"> -->
         <ul>
         <li v-for="item in getAllProducts" v-bind:key="item" class="lista">
         <div class="checklist-productos">
@@ -31,7 +31,7 @@
         </div>
         </li>
         </ul>
-      </div>
+      <!-- </div> -->
     </div>
   </section>
     
@@ -129,7 +129,7 @@ export default {
     },
   }, 
   created: function(){
-      
+      console.log("andamo ruleta");
       this.products=localStorage.getItem("Lista") || false;
       this.suma=localStorage.getItem("Saldo") || false;
       if (this.products){
@@ -156,6 +156,11 @@ export default {
 }
 .lista{
   list-style: none;
+  border: solid 1px red;
+  position: relative;
+  left: 10%;
+  margin-left: 50px;
+  justify-content: space-evenly;
 }
 .imagen-inicio {
   width: 1340px;
@@ -171,10 +176,10 @@ export default {
 }
 .menu-navegacion {
   position: relative;
-  top: 8%;
+  top: 150px;
   left: -8%;
   width: 18%;
-  height: 50%;
+  height: 300px;
   background: transparent;
   background-blend-mode: multiply;
   display: flex;
@@ -209,13 +214,13 @@ export default {
 }
 .contenedor {
   position: relative;
-  top: -25%;
+  top: 40px;
   height :10%;
-  width :65%;
-  left: 38%;
+  width :60%;
+  left: 35%;
   display: flex;
   justify-content: space-evenly;
-  flex-wrap:nowrap;
+  flex-wrap: nowrap;
   border: solid red;
 }
 .producto {

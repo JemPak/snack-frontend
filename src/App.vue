@@ -1,6 +1,8 @@
 <template>
    <header>
-        <img src="@/assets/settings.svg" alt="" class="menu">
+        <div class="icon1">
+            <label for="icon1" class="fas fa-bars"></label>
+        </div>
         <img src="@/assets/SnackLogo.png" alt="" class="logo">
         <div class="buscar">
             <input type="text" placeholder="Buscar" required>
@@ -9,15 +11,33 @@
             </div>
         </div>
         <nav class="nav">
-            <button v-if= "!is_admin" v-on:click="Home" class="boton">Nosotros</button>
-            <button v-if= "!is_admin" v-on:click="loadProductos" class="boton">Productos</button>
-            <button v-if= "!is_admin" v-on:click="Login" class="boton">Iniciar Sesión</button>
-            <button v-if= "!is_admin" v-on:click="Products" class="boton">Mi Cuenta</button>
-            <button v-if= "!is_admin" v-on:click="ProductsAdmin" class="boton" >Ad_Productos</button>
-            <button v-if= "!is_admin" v-on:click="ContactAdmin" class="boton">Sol_Contacto</button>
-            <button v-if= "!is_admin" v-on:click="InstallationAdmin" class="boton">Sol_Instalaciones</button>
+            <button v-if="is_admin" v-on:click="Home" class="boton">Nosotros</button>
+            <button v-if="is_admin" v-on:click="loadProductos" class="boton">Productos</button>
+            <button v-if="is_admin" v-on:click="LogIn" class="boton">Iniciar Sesión</button>
+            <button v-if="is_admin" v-on:click="Products" class="boton">Mi Cuenta</button>
+            <button v-if="!is_admin" v-on:click="ProductsAdmin" class="boton">Productos</button>
+            <button v-if="!is_admin" v-on:click="ContactAdmin" class="boton">Contacto</button>
+            <button v-if="!is_admin" v-on:click="InstallationAdmin" class="boton">Instalaciones</button>
         </nav>
     </header>
+
+
+    <input type="checkbox" id="icon1">
+    <div class="container-menu">
+    <div class="cont-menu">
+      <nav>
+            <a v-if="is_auth" v-on:click="Products">Mi Cuenta</a>
+            <a v-if="is_auth" v-on:click="Home" >Nosotros</a>
+            <a v-if="is_auth" v-on:click="loadProductos" >Productos</a>
+            <a v-if="is_auth" v-on:click="LogIn" >Iniciar Sesión</a>
+            <a v-if="is_auth" v-on:click="ProductsAdmin"  >Ad_Productos</a>
+            <a v-if="is_auth" v-on:click="ContactAdmin" >Sol_Contacto</a>
+            <a v-if="is_auth" v-on:click="InstallationAdmin">Sol_Instalaciones</a>
+            </nav>
+          <label for="icon1" class="fas fa-times-circle"></label>         
+        </div>
+    </div>
+
     <!-- <footer>
         <img src="@/assets/SnackLogo.png" alt="" class="logo">
     </footer> -->
@@ -30,23 +50,27 @@
 export default {
   name: "App",
   data: function() {
-      is_admin: true;
+      return {
+          is_admin: false,
+          is_auth: true
+      }
   },
   methods: {
-      loadProductos: function () {
-			this.$router.push({ name: "Productos" });
-		},
+    loadProductos: function () {
+    console.log("antes de router");
+    this.$router.push({ name: "Productos" });
+    },
     Home: function(){
       this.$router.push({ name: "Home" });
       }, 
+    LogIn: function(){
+      this.$router.push({ name: "logIn" });
+    }, 
     Contacto: function(){
         this.$router.push({ name: "Contacto" });
     },
     ir_Instalacion: function(){
         this.$router.push({ name: "Instalacion" });
-    },
-    Producto: function(){
-        this.$router.push({ name: "Producto" });
     },
 
     ProductsAdmin: function(){
@@ -58,8 +82,7 @@ export default {
     },
     InstallationAdmin: function(){
         this.$router.push({ name: "InstallationAd" });
-    },
-    
+    }
     
   },
   created: function(){
@@ -89,7 +112,7 @@ header{
     position: relative;
     width: 430px;
     height: 50px;
-    left: 170px;;
+    left: 100px;;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -136,11 +159,12 @@ header{
 }
 .logo{
     position: relative;
+    left: -27%;
     margin-left: 40px;
     width: 120px;
     height: 50px;
     cursor: pointer;
-    /* background-color:red; */
+    background-color:red;
 }
 .buscar{
     position: absolute;
@@ -185,14 +209,75 @@ header{
     font-size: 45px;
     cursor: pointer;
     color: black;
-}
-.menu {
+    /* border: 1px solid black; */
     position: relative;
-    width: 50px;
-    height:50px;
-    margin-left: -180px;
-    /* background-color:red; */
+    left: -8%;
 }
+
+
+/*Menú Lateral*/
+#icon1{
+    display:none;
+}
+.container-menu{
+    position:absolute;
+    z-index: 9999;
+    background: rgba(0,0,0,0.5);
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    transition: all 500ms ease;   
+    opacity: 0;
+    visibility: hidden; 
+}
+#icon1:checked ~ .container-menu{
+    opacity:1;
+    visibility: visible;
+}
+
+.cont-menu{
+    z-index: 9999;
+    width: 100%;
+    max-width: 250px;
+    background: rgb(238, 170, 62);
+    height: 100vh;
+    position: relative;
+    transition: all 500ms ease;
+    transform:translateX(-100%);     
+}
+#icon1:checked ~ .container-menu .cont-menu{
+    opacity:1;
+    visibility: visible;
+    transform:translateX(0%); 
+}
+
+
+.cont-menu nav{
+    transform: translateY(15%); 
+}
+.cont-menu nav a{
+    display: block;
+    text-decoration: none;
+    padding: 20px;
+    color: black;
+    border-left: 5px solid transparent;
+    transition: all 400ms ease;  
+}
+.cont-menu nav a:hover{
+    border-left: 5px solid #c7c7c7;
+    background: white;
+}
+
+.cont-menu label{
+    position: absolute;
+    right: 5px;
+    top: 10px;
+    color: #fff;
+    cursor:pointer;
+    font-size: 18px;    
+}
+
 footer{
     position: fixed;
     left: 0;
