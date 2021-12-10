@@ -7,7 +7,8 @@ import CreateProd from './components/CreateProd.vue'
 import Home from './components/Home.vue'
 import Productos from './components/Productos.vue'
 import Producto from './components/Producto.vue'
-
+//import logIn from './components/logIn.vue'
+//import signIn from './components/signIn.vue'
 
 const routes = [
     {
@@ -49,6 +50,16 @@ const routes = [
         name: "Producto",
         component: Producto,
     },
+    //{
+     //   path: '/logIn',
+       // name: "logIn",
+        //component: logIn,
+    //},
+    //{
+       // path: '/signIn',
+       // name: "signIn",
+       // component: signIn,
+    //},
 
 ]
 

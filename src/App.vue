@@ -1,6 +1,9 @@
 <template>
    <header>
-        <img src="@/assets/settings.svg" alt="" class="menu">
+        <div class="icon1">
+           <img src="@/assets/settings.svg" alt="">
+        </div>
+       
         <img src="@/assets/SnackLogo.png" alt="" class="logo">
         <div class="buscar">
             <input type="text" placeholder="Buscar" required>
@@ -11,13 +14,30 @@
         <nav class="nav">
             <button v-if= "!is_admin" v-on:click="Home" class="boton">Nosotros</button>
             <button v-if= "!is_admin" v-on:click="loadProductos" class="boton">Productos</button>
-            <button v-if= "!is_admin" v-on:click="Login" class="boton">Iniciar Sesión</button>
+            <button v-if= "!is_admin" v-on:click="LogIn" class="boton">Iniciar Sesión</button>
             <button v-if= "!is_admin" v-on:click="Products" class="boton">Mi Cuenta</button>
             <button v-if= "!is_admin" v-on:click="ProductsAdmin" class="boton" >Ad_Productos</button>
             <button v-if= "!is_admin" v-on:click="ContactAdmin" class="boton">Sol_Contacto</button>
             <button v-if= "!is_admin" v-on:click="InstallationAdmin" class="boton">Sol_Instalaciones</button>
         </nav>
     </header>
+
+
+    <input type="checkbox" id="icon1">
+    <div class="container-menu">
+    <div class="cont-menu">
+      <nav>
+            <button v-if= "!is_admin" v-on:click="Home" class="">Nosotros</button>
+            <button v-if= "!is_admin" v-on:click="loadProductos" class="">Productos</button>
+            <button v-if= "!is_admin" v-on:click="LogIn" class="">Iniciar Sesión</button>
+            <button v-if= "!is_admin" v-on:click="Products" class="">Mi Cuenta</button>
+            <button v-if= "!is_admin" v-on:click="ProductsAdmin" class="" >Ad_Productos</button>
+            <button v-if= "!is_admin" v-on:click="ContactAdmin" class="">Sol_Contacto</button>
+            <button v-if= "!is_admin" v-on:click="InstallationAdmin" class="">Sol_Instalaciones</button>
+      </nav>           
+        </div>
+    </div>
+
     <!-- <footer>
         <img src="@/assets/SnackLogo.png" alt="" class="logo">
     </footer> -->
@@ -193,6 +213,68 @@ header{
     margin-left: -180px;
     /* background-color:red; */
 }
+
+/*Menú Lateral*/
+#icon1{
+    display:none;
+}
+.container-menu{
+    position:absolute;
+    background: rgba(0,0,0,0.5);
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    transition: all 500ms ease;   
+    opacity: 0;
+    visibility: hidden; 
+}
+#icon1:checked ~ .container-menu{
+    opacity:1;
+    visibility: visible;
+}
+
+.cont-menu{
+    width: 100%;
+    max-width: 250px;
+    background: rgb(238, 170, 62);
+    height: 100vh;
+    position: relative;
+    transition: all 500ms ease;
+    transform:translateX(-100%);     
+}
+#icon1:checked ~ .container-menu .cont-menu{
+    opacity:1;
+    visibility: visible;
+    transform:translateX(0%); 
+}
+
+
+.cont-menu nav{
+    transform: translateY(15%); 
+}
+.cont-menu nav a{
+    display: block;
+    text-decoration: none;
+    padding: 20px;
+    color: black;
+    border-left: 5px solid transparent;
+    transition: all 400ms ease;  
+}
+.cont-menu nav a:hover{
+    border-left: 5px solid #c7c7c7;
+    background: #1f1f1f;
+}
+
+.cont-menu label{
+    position: absolute;
+    right: 5px;
+    top: 10px;
+    color: #fff;
+    cursor:pointer;
+    font-size: 18px;    
+}
+
 footer{
     position: fixed;
     left: 0;
