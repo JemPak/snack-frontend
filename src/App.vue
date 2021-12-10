@@ -3,7 +3,7 @@
         <div class="icon1">
             <label for="icon1" class="fas fa-bars"></label>
         </div>
-        <img src="@/assets/SnackLogo.png" alt="" class="logo">
+        <img v-on:click="Home" src="@/assets/SnackLogo.png" alt="" class="logo">
         <div class="buscar">
             <input type="text" placeholder="Buscar" required>
             <div class="but">
