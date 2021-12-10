@@ -76,8 +76,7 @@ export default {
     },
 
     created(){
-        console.log("error");
-        this.CreateProduct();
+        console.log("inicio de creacion de producto");
     }
 
 };
