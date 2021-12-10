@@ -9,6 +9,8 @@ import Productos from './components/Productos.vue'
 import Producto from './components/Producto.vue'
 import logIn from './components/logIn.vue'
 import signIn from './components/signIn.vue'
+import ContactDetail from './components/ContactDetail.vue'
+import InstallDetail from './components/InstallDetail.vue'
 
 const routes = [
     {
@@ -59,6 +61,16 @@ const routes = [
         path: '/signIn',
         name: "signIn",
         component: signIn,
+    },
+    {
+        path: "/ContactDetail",
+        name: "ContactD",
+        component: ContactDetail,
+    },
+    {
+        path: "/InstallDetail",
+        name: "InstallD",
+        component: InstallDetail,
     },
 
 ]

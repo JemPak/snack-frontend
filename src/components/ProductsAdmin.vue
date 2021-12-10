@@ -1,7 +1,7 @@
 <template>
     <h1 class="titulo">PRODUCTOS</h1>
-    <div class="bloque">
-        <nav>
+    <div class="bloque1">
+        <nav class="search">
             <h2>BUSQUEDA</h2>
             <div class="buscar1">
                 <input type="text" placeholder="Buscar" required class="fas fa-search icon">
@@ -67,6 +67,7 @@ export default {
                 alert("Ha ocurrido algo inesperado, por favor intente nuevamente mas tarde");
                 console.log(JSON.stringify(error, null, 2));
             });
+            this.$apollo.queries.getAllProducts.refetch();
     },
 
   },
@@ -99,7 +100,7 @@ body{
     text-align: center;
     margin: 30px;
 }
-.bloque{ 
+.bloque1{ 
     float: left;
     width: 150px;
     padding: 0.5cm;

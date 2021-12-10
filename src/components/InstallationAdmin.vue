@@ -1,7 +1,7 @@
 <template>
     <h1 class="titulo">SOLICITUDES DE INSTALACION </h1>
-    <div class="bloque">
-        <nav>
+    <div class="bloque1">
+        <nav class="search">
             <h2>BUSQUEDA</h2>
             <div class="buscar1">
                 <input type="text" placeholder="Buscar" required class="fas fa-search icon">
@@ -20,6 +20,7 @@
                 <th>FECHA DE CREACION</th>
             </tr>
             <tr v-for="install in getInstallUnaccepted" :key="getInstallUnaccepted.installation_id">
+                <td  v-on:click="ir_install" class="link">{{install.installation_id}}</td>
                 <td>{{install.installation_id}}</td>
                 <td>{{install.user_id}}</td>
                 <td>{{install.address}}</td>
@@ -41,7 +42,9 @@ export default {
 
   },
   methods: {
-    
+      ir_install: function (){
+          this.$router.push({name: "InstallD"});
+      },        
   },
 
   apollo:{
@@ -64,5 +67,11 @@ export default {
 </script>
 
 <style>
-
+.link{
+    cursor: pointer;
+    
+}
+.link:hover{
+    text-decoration: underline;
+}
 </style>
