@@ -1,7 +1,7 @@
 <template>
    <header>
         <div class="icon1">
-           <img src="@/assets/settings.svg" alt="">
+            <label for="icon1" class="fas fa-bars"></label>
         </div>
        
         <img src="@/assets/SnackLogo.png" alt="" class="logo">
@@ -27,14 +27,15 @@
     <div class="container-menu">
     <div class="cont-menu">
       <nav>
-            <button v-if= "!is_admin" v-on:click="Home" class="">Nosotros</button>
-            <button v-if= "!is_admin" v-on:click="loadProductos" class="">Productos</button>
-            <button v-if= "!is_admin" v-on:click="LogIn" class="">Iniciar Sesión</button>
-            <button v-if= "!is_admin" v-on:click="Products" class="">Mi Cuenta</button>
-            <button v-if= "!is_admin" v-on:click="ProductsAdmin" class="" >Ad_Productos</button>
-            <button v-if= "!is_admin" v-on:click="ContactAdmin" class="">Sol_Contacto</button>
-            <button v-if= "!is_admin" v-on:click="InstallationAdmin" class="">Sol_Instalaciones</button>
-      </nav>           
+            <a v-if= "!is_admin" v-on:click="Home" >Nosotros</a>
+            <a v-if= "!is_admin" v-on:click="loadProductos" >Productos</a>
+            <a v-if= "!is_admin" v-on:click="LogIn" >Iniciar Sesión</a>
+            <a v-if= "!is_admin" v-on:click="Products"> Mi Cuenta</a>
+            <a v-if= "!is_admin" v-on:click="ProductsAdmin"  >Ad_Productos</a>
+            <a v-if= "!is_admin" v-on:click="ContactAdmin" >Sol_Contacto</a>
+            <a v-if= "!is_admin" v-on:click="InstallationAdmin">Sol_Instalaciones</a>
+            </nav>
+          <label for="icon1" class="fas fa-times-circle"></label>         
         </div>
     </div>
 
@@ -206,13 +207,7 @@ header{
     cursor: pointer;
     color: black;
 }
-.menu {
-    position: relative;
-    width: 50px;
-    height:50px;
-    margin-left: -180px;
-    /* background-color:red; */
-}
+
 
 /*Menú Lateral*/
 #icon1{
@@ -220,6 +215,7 @@ header{
 }
 .container-menu{
     position:absolute;
+    z-index: 9999;
     background: rgba(0,0,0,0.5);
     width: 100%;
     height: 100vh;
@@ -235,6 +231,7 @@ header{
 }
 
 .cont-menu{
+    z-index: 9999;
     width: 100%;
     max-width: 250px;
     background: rgb(238, 170, 62);
@@ -263,7 +260,7 @@ header{
 }
 .cont-menu nav a:hover{
     border-left: 5px solid #c7c7c7;
-    background: #1f1f1f;
+    background: white;
 }
 
 .cont-menu label{
