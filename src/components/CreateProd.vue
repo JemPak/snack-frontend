@@ -70,7 +70,8 @@ export default {
             })
             .catch ((error) => {
                 console.log(JSON.stringify(error, null, 2));
-            });
+            })
+            this.$apollo.queries.getAllProducts.refetch();
         },
 
     },

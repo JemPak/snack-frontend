@@ -13,7 +13,7 @@ const authLink = setContext((_, { headers }) => {
     return {
         headers: {
             ...headers,
-            "Authorization": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjM5MTA1MTExLCJqdGkiOiIwZTZiMTViNTI4YmQ0M2E2YmM2OTliYjEyOGQzZGU1ZCIsInVzZXJfaWQiOjEwfQ.zrPa4V64Zvl99CUrG5m_zCoLPATsdWMpwvQ0yv6vVa4"
+            "Authorization": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjM5MTY3NDIwLCJqdGkiOiJlZWU2MGU3Yzc4Yzc0M2U2ODk5MjdmM2MwOTFhNTJjNCIsInVzZXJfaWQiOjEwfQ.mzY38FTUd8oLiYtrfWn-697d2-zAzQq0XHImzRjAtP8"
         }
     }
 })

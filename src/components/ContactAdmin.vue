@@ -20,7 +20,6 @@
             </tr>
             <tr v-for="contact in getAllContactActive" :key="getAllContactActive.contact_id">
                 <td  v-on:click="ir_contact" class="link">{{contact.contact_id }}</td>
-                <td>{{contact.contact_id }}</td>
                 <td>{{contact.user_id}}</td>
                 <td>{{contact.assesory}}</td>
                 <td>{{contact.comment}}</td>

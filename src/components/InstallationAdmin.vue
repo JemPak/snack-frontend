@@ -21,7 +21,6 @@
             </tr>
             <tr v-for="install in getInstallUnaccepted" :key="getInstallUnaccepted.installation_id">
                 <td  v-on:click="ir_install" class="link">{{install.installation_id}}</td>
-                <td>{{install.installation_id}}</td>
                 <td>{{install.user_id}}</td>
                 <td>{{install.address}}</td>
                 <td>{{install.city}}</td>
