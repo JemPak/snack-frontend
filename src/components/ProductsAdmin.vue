@@ -23,6 +23,7 @@
                 <td>{{product.name}}</td>
                 <td>{{product.description}}</td>
                 <td>{{product.price}}</td>
+                <td><button v-on:click="DeleteProducts(product.id_producto)">ELIMINAR</button></td>
             </tr>
         </thead>
         <tfoot>
@@ -48,7 +49,7 @@ export default {
       crearProducto: function(){
           this.$router.push({name: "CreateProduct"});
       },
-    DeleteProducts: async function(){
+    DeleteProducts: async function(id_producto){
         await this.$apollo
             .mutate({
                 mutation: gql`
@@ -57,7 +58,7 @@ export default {
                     }  
                 `,
                 variables:{
-                    productId: this.id_producto,
+                    productId: id_producto,
                 },
             })
             .then((result) => {
