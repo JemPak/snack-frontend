@@ -1,6 +1,6 @@
 <template>
-    <div class="imagen-inicio">
-    <img src="@/assets/frutos2.jpg" />
+   <div class="imagen"> 
+    <img src="@/assets/frutos2.jpg">
   </div>
   <nav class="menu-navegacion">
     <h2>Productos:</h2>

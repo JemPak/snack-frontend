@@ -11,13 +11,12 @@
             </div>
         </div>
         <nav class="nav">
-            <button v-if="is_admin" v-on:click="Home" class="boton">Nosotros</button>
-            <button v-if="is_admin" v-on:click="loadProductos" class="boton">Productos</button>
-            <button v-if="is_admin" v-on:click="LogIn" class="boton">Iniciar Sesión</button>
-            <button v-if="is_admin" v-on:click="Products" class="boton">Mi Cuenta</button>
-            <button v-if="!is_admin" v-on:click="ProductsAdmin" class="boton">Productos</button>
-            <button v-if="!is_admin" v-on:click="ContactAdmin" class="boton">Contacto</button>
-            <button v-if="!is_admin" v-on:click="InstallationAdmin" class="boton">Instalaciones</button>
+            <button v-if="!is_admin" v-on:click="Home" class="boton">Nosotros</button>
+            <button v-if="!is_admin" v-on:click="loadProductos" class="boton">Productos</button>
+            <button v-if="!is_admin" v-on:click="LogIn" class="boton">Iniciar Sesión</button>
+            <button v-if="is_admin" v-on:click="ProductsAdmin" class="boton">Productos</button>
+            <button v-if="is_admin" v-on:click="ContactAdmin" class="boton">Contacto</button>
+            <button v-if="is_admin" v-on:click="InstallationAdmin" class="boton">Instalaciones</button>
         </nav>
     </header>
 
@@ -26,13 +25,15 @@
     <div class="container-menu">
     <div class="cont-menu">
       <nav>
-            <a v-if="is_auth" v-on:click="Products">Mi Cuenta</a>
+            <a v-if="is_auth" v-on:click="Account">Mi Cuenta</a>
+            <a v-if="is_auth" v-on:click="Solicitud">Solicitudes</a>
             <a v-if="is_auth" v-on:click="Home" >Nosotros</a>
             <a v-if="is_auth" v-on:click="loadProductos" >Productos</a>
-            <a v-if="is_auth" v-on:click="LogIn" >Iniciar Sesión</a>
-            <a v-if="is_auth" v-on:click="ProductsAdmin"  >Ad_Productos</a>
-            <a v-if="is_auth" v-on:click="ContactAdmin" >Sol_Contacto</a>
-            <a v-if="is_auth" v-on:click="InstallationAdmin">Sol_Instalaciones</a>
+            <a v-if="is_auth" v-on:click="CloseSesion" >Cerrar Sesión</a>
+            <a v-if="!is_auth" v-on:click="LogIn" >Iniciar Sesión</a>
+            <a v-if="is_admin" v-on:click="ProductsAdmin"  >Ad_Productos</a>
+            <a v-if="is_admin" v-on:click="ContactAdmin" >Sol_Contacto</a>
+            <a v-if="is_admin" v-on:click="InstallationAdmin">Sol_Instalaciones</a>
             </nav>
           <label for="icon1" class="fas fa-times-circle"></label>         
         </div>
@@ -58,14 +59,20 @@ export default {
   methods: {
     loadProductos: function () {
     console.log("antes de router");
-    this.$router.push({ name: "Productos" });
+        this.$router.push({ name: "Productos" });
     },
     Home: function(){
       this.$router.push({ name: "Home" });
-      }, 
+    }, 
     LogIn: function(){
       this.$router.push({ name: "logIn" });
     }, 
+    CloseSesion: function(){
+        
+    },
+    Account: function(){
+        this.$router.push({ name: "Account" });
+    },
     Contacto: function(){
         this.$router.push({ name: "Contacto" });
     },

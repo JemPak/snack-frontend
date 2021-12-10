@@ -9,6 +9,7 @@ import Productos from './components/Productos.vue'
 import Producto from './components/Producto.vue'
 import logIn from './components/logIn.vue'
 import signIn from './components/signIn.vue'
+import Account from './components/MyAccount.vue'
 import ContactDetail from './components/ContactDetail.vue'
 import InstallDetail from './components/InstallDetail.vue'
 
@@ -56,6 +57,11 @@ const routes = [
         path: '/logIn',
         name: "logIn",
         component: logIn,
+    },
+    {
+        path: '/MyAccount',
+        name: "Account",
+        component: Account,
     },
     {
         path: '/signIn',

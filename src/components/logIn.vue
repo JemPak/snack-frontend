@@ -1,13 +1,15 @@
 <template>
-    <div class="bloque">
+    <form class="bloque">
         <h2>¡Bienvenido a SnackTime!</h2>
-        <h3>Ingrese su e-mail o usuario</h3>
-        <h4 color=gray>E-mail o Usuario</h4>
+        <h3>Ingrese su e-mail y Contraseña</h3>
+        <h4 color=gray>E-mail</h4>
         <input type="text" class=cuadro>
+        <h4 color=gray>Contraseña</h4>
+        <input type="password" class=cuadro>
         <button class=ingreso> Ingresar </button>
         <button class=crear> Crear cuenta </button>
         <button class=ayuda> Necesito ayuda para ingresar a mi cuenta </button>
-    </div>
+    </form>
 </template>
 
 
