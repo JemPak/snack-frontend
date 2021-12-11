@@ -65,8 +65,8 @@ export default {
             alert("Borrado exitoso");
             })  
             .catch ((error) => {
-                alert("Ha ocurrido algo inesperado, por favor intente nuevamente mas tarde");
                 console.log(JSON.stringify(error, null, 2));
+                alert("Ha ocurrido algo inesperado, por favor intente nuevamente mas tarde");
             });
             this.$apollo.queries.getAllProducts.refetch();
     },

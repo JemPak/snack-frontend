@@ -45,7 +45,7 @@ export default {
                 `,
                 variables:{
                     credentials: this.credentials,
-                },
+                } 
             })
             .then( (result) => {
                 let dataLogIn = {
@@ -56,10 +56,8 @@ export default {
                 this.$emit("completedLogIn", dataLogIn);
             })
             .catch((error) =>{
-                console.log(JSON.stringify(error, null, 1));
-                console.log(error);
-                alert("credenciales incorrectas!")
-                console.log(JSON.stringify(error, null, 2));
+                alert("credenciales incorrectas!");
+                console.log(error);                
             });
 
         },

@@ -31,10 +31,7 @@
             <a v-if="is_auth" v-on:click="loadProductos" >Productos</a>
             <a v-if="is_auth" v-on:click="CloseSesion" >Cerrar Sesión</a>
             <a v-if="!is_auth" v-on:click="LogIn" >Iniciar Sesión</a>
-            <a v-if="is_admin" v-on:click="ProductsAdmin"  >Ad_Productos</a>
-            <a v-if="is_admin" v-on:click="ContactAdmin" >Sol_Contacto</a>
-            <a v-if="is_admin" v-on:click="InstallationAdmin">Sol_Instalaciones</a>
-            </nav>
+        </nav>
           <label for="icon1" class="fas fa-times-circle"></label>         
         </div>
     </div>
@@ -60,7 +57,12 @@ export default {
   name: "App",
   data: function() {
       return {
-         
+          userDetailById: {},
+          user:{
+              UserId: "",
+          },
+          is_admin: false,
+          is_auth: false,
       }
   },
   methods: {
@@ -74,19 +76,26 @@ export default {
     LogIn: function(){
       this.$router.push({ name: "logIn" });
     }, 
-    completedLogIn: function(data){
+    completedLogIn: function(data){ 
         console.log(data);
         localStorage.setItem("email", data.email);
         localStorage.setItem("is_auth", true);
         localStorage.setItem("token_access", data.token_access);
         localStorage.setItem("token_refresh", data.token_refresh);
-        alert("login completado");
+        this.$apollo.queries.userDetailById.refetch();
+        // this.$apollo.queries.userDetailById.skip = true;
         this.is_auth = localStorage.getItem("is_auth") || false;
-        this.is_admin = localStorage.getItem("is_admin") || true;
-        location.reload();
+        console.log(this.userDetailById);
+        this.is_admin = this.userDetailById.is_admin
+        console.log(this.is_admin);
         this.$router.push({ name: "Home"});
         
-        // userId= jwt_decode(localStorage.getItem("token_refresh")).user_id
+
+        /*this.$apollo.queries.getAllProducts.refetch();
+        this.is_admin = this.userDetailById.is_admin;
+        console.log(this.is_admin);
+        // userId= jwt_decode(localStorage.getItem("token_refresh")).user_id*/
+
     },
 
     CloseSesion: function(){
@@ -118,27 +127,33 @@ export default {
     }
     
   },
-//   apollo:{
-//       userDetailById: {
-//           query: gql`
-//             query UserDetailById($userId: Int!) {
-//                 userDetailById(userId: $userId) {
-//                 is_admin
-//                 }
-//             }
-//           `,
-//           variables: {
-//               UserId: jwt_decode(localStorage.getItem("token_refresh") || "").user_id,
-//           },
-//           skip () {
-//             return this.skipQuery
-//           },
-//       }
-//   },
+  apollo: {
+      userDetailById: {
+          query: gql`
+            query Query($userId: Int!) {
+                userDetailById(userId: $userId) {
+                is_admin
+                }
+            }
+          `,
+          variables() {
+              return {
+                  userId: this.user.UserId,
+              }
+          },
+        //   skip() {
+        //       return this.skipQuery
+        //   }
+      }
+  },
   created: function(){
-      console.log("asas")
+    console.log("123")
+    if (localStorage.getItem("token_refresh") != null){
+        this.user.UserId = jwt_decode(localStorage.getItem("token_refresh")).user_id;
+    }
+    console.log("recargo y:" + this.is_admin);
     this.is_auth = localStorage.getItem("is_auth") || false;
-    this.is_admin = localStorage.getItem("is_admin") || true;
+    // this.is_admin = localStorage.getItem("is_admin") || false;
     this.$router.push({ name: "Home" });
   }
 };

@@ -48,15 +48,7 @@ export default {
     return {
       getAllProducts:[],
       products: new Set(),
-      suma:0,
-      createOrder:{
-        "userEmail": "marta@gmail.com",
-        "products": this.products,
-        "dateCreate": "",
-        "balanceOrder": "",
-        "idMachine": ""
-      },
-      
+      suma:0,     
     };
   },
   
@@ -115,9 +107,14 @@ export default {
       console.log(this.products)
     },
     Comprar: async function(){
-      this.saldo = parseInt(localStorage.getItem("Saldo"));
-      this.lista = (localStorage.getItem("Lista"));
-      await this.$apollo
+      const saldo = parseInt(localStorage.getItem("Saldo"));
+      const lista = localStorage.getItem("Lista");
+      const email = localStorage.getItem("email");
+      console.log(lista);
+      console.log(saldo);
+      console.log(email);
+      if (localStorage.getItem("is_auth") == "true") {
+        await this.$apollo
         .mutate({
           mutation: gql`
             mutation Mutation($order: order!) {
@@ -126,29 +123,34 @@ export default {
           `,
           variables: {
             "order": {
-              "userEmail": "marta@gmail.com",
-              "products": this.lista,
-              "dateCreate": null,
-              "balanceOrder": this.saldo,
-              "idMachine": 2
-            }
+              "userEmail": email,
+              "products": lista,
+              "dateCreate": "2021-12-11",
+              "balanceOrder": saldo,
+              "idMachine": 20
+            },
           },
         })
         .then((result) => {
           alert("Orden creada sastisfactoriamente!");
         })
         .catch((error) => {
+          console.log(error);
           alert("Ha ocurrido un error con su orden, intente otra vez en unos momentos, si el problema persiste consulte con un administrador" + error.message);
         });
+      }else{
+        alert("Inicie sesion para registrar su orden")
+      }
+      
     },
     cargarImagen: function(url_image) {
       this.laImagen=url_image;
     },
   }, 
   created: function(){
-      console.log("andamo ruleta");
       this.products=localStorage.getItem("Lista") || false;
-      this.suma=localStorage.getItem("Saldo") || false;
+      this.suma = parseInt(localStorage.getItem("Saldo")) || 0;
+      localStorage.setItem("Saldo", JSON.stringify(this.suma));
       if (this.products){
           this.products = JSON.parse(this.products);
           this.products= new Set (this.products);
@@ -179,7 +181,6 @@ export default {
 }
 .lista2{
   list-style: none;
-  /* border: solid 1px red; */
   position: relative;
   left: 10%;
   margin-left: 50px;
@@ -243,7 +244,6 @@ export default {
   display: flex;
   justify-content: space-evenly;
   flex-wrap: nowrap;
-  /* border: solid red; */
 }
 .producto {
   position: relative;
@@ -352,7 +352,6 @@ export default {
   justify-content: space-evenly;
   flex-wrap: wrap;
   width: 100%;
-  border: rgb(65, 22, 184) 5px solid;
 }
 .img-productos {
   object-fit: cover;
