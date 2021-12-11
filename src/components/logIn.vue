@@ -1,7 +1,7 @@
 <template>
 <!-- <center> -->
     <div class="container">
-        <form class="bloque">
+        <form class="bloque" v-on:submit.prevent="logIn">
             <h2>¡Bienvenido a SnackTime!</h2>
             <h3>Ingrese su e-mail y Contraseña</h3>
             <h4 color=gray>E-mail</h4>
@@ -33,7 +33,6 @@ export default {
     },
     methods: {
         logIn: async function(){
-            console.log(this.credentials);
             await this.$apollo
             .mutate({
                 mutation:gql`
@@ -45,11 +44,11 @@ export default {
                     }
                 `,
                 variables:{
-                    email: this.credentials.email,
-                    password: this.credentials.password,
+                    credentials: this.credentials,
                 },
             })
             .then( (result) => {
+                console.log("respuesta");
                 let dataLogIn = {
                     email: this.credentials.email,
                     token_access: result.data.logIn.access,
@@ -60,6 +59,7 @@ export default {
             .catch((error) =>{
                 console.log(error);
                 alert("credenciales incorrectas!")
+                console.log(JSON.stringify(error, null, 2));
             });
 
         },

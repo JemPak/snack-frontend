@@ -13,7 +13,7 @@
         <nav class="nav">
             <button v-if="!is_admin" v-on:click="Home" class="boton">Nosotros</button>
             <button v-if="!is_admin" v-on:click="loadProductos" class="boton">Productos</button>
-            <button v-if="!is_admin" v-on:click="LogIn" class="boton">Iniciar Sesión</button>
+            <button v-if="!is_auth" v-on:click="LogIn" class="boton">Iniciar Sesión</button>
             <button v-if="is_admin" v-on:click="ProductsAdmin" class="boton">Productos</button>
             <button v-if="is_admin" v-on:click="ContactAdmin" class="boton">Contacto</button>
             <button v-if="is_admin" v-on:click="InstallationAdmin" class="boton">Instalaciones</button>
@@ -43,7 +43,8 @@
         <img src="@/assets/SnackLogo.png" alt="" class="logo">
     </footer> -->
   <div>
-    <router-view></router-view>
+    <router-view v-on:completedLogIn="completedLogIn" v-on:completedSignUp="completedSignUp"
+        v-on:logOut="logOut"></router-view>
   </div>      
 </template>
 
@@ -55,8 +56,7 @@ export default {
   name: "App",
   data: function() {
       return {
-          is_admin: true,
-          is_auth: true
+         
       }
   },
   methods: {
@@ -70,20 +70,28 @@ export default {
     LogIn: function(){
       this.$router.push({ name: "logIn" });
     }, 
-    completedLogin: function(data){
+    completedLogIn: function(data){
+        console.log(data);
         localStorage.setItem("email", data.email);
         localStorage.setItem("is_auth", true);
         localStorage.setItem("token_access", data.token_access);
         localStorage.setItem("token_refresh", data.token_refresh);
         console.log("login completado");
-        this.$apollo.queries.getAllProducts.refetch();
-        this.is_admin = this.userDetailById.is_admin;
-        console.log(this.is_admin);
+        this.is_auth = localStorage.getItem("is_auth") || false;
+        this.is_admin = localStorage.getItem("is_admin") || true;
+        location.reload();
+        this.$router.push({ name: "Home"});
+        
         // userId= jwt_decode(localStorage.getItem("token_refresh")).user_id
-
     },
+
+
     CloseSesion: function(){
         localStorage.clear()
+        this.is_admin = false;
+        this.is_auth = false;
+        location.reload();
+        this.$router.push({ name: "logIn"});
     },
     Account: function(){
         this.$router.push({ name: "Account" });
@@ -122,8 +130,9 @@ export default {
 //       }
 //   },
   created: function(){
+      console.log("asas")
     this.is_auth = localStorage.getItem("is_auth") || false;
-    this.is_admin = localStorage.getItem("is_admin") || false;
+    this.is_admin = localStorage.getItem("is_admin") || true;
     this.$router.push({ name: "Home" });
   }
 };
