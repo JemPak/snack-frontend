@@ -218,6 +218,7 @@ header{
 /*Menú Lateral*/
 #icon1{
     display:none;
+    
 }
 .container-menu{
     position:absolute;
@@ -250,6 +251,7 @@ header{
     opacity:1;
     visibility: visible;
     transform:translateX(0%); 
+    cursor: pointer;
 }
 
 
