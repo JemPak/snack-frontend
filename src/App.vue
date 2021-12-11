@@ -11,13 +11,12 @@
             </div>
         </div>
         <nav class="nav">
-            <button v-if="is_admin" v-on:click="Home" class="boton">Nosotros</button>
-            <button v-if="is_admin" v-on:click="loadProductos" class="boton">Productos</button>
-            <button v-if="is_admin" v-on:click="LogIn" class="boton">Iniciar Sesión</button>
-            <button v-if="is_admin" v-on:click="Products" class="boton">Mi Cuenta</button>
-            <button v-if="!is_admin" v-on:click="ProductsAdmin" class="boton">Productos</button>
-            <button v-if="!is_admin" v-on:click="ContactAdmin" class="boton">Contacto</button>
-            <button v-if="!is_admin" v-on:click="InstallationAdmin" class="boton">Instalaciones</button>
+            <button v-if="!is_admin" v-on:click="Home" class="boton">Nosotros</button>
+            <button v-if="!is_admin" v-on:click="loadProductos" class="boton">Productos</button>
+            <button v-if="!is_admin" v-on:click="LogIn" class="boton">Iniciar Sesión</button>
+            <button v-if="is_admin" v-on:click="ProductsAdmin" class="boton">Productos</button>
+            <button v-if="is_admin" v-on:click="ContactAdmin" class="boton">Contacto</button>
+            <button v-if="is_admin" v-on:click="InstallationAdmin" class="boton">Instalaciones</button>
         </nav>
     </header>
 
@@ -26,13 +25,15 @@
     <div class="container-menu">
     <div class="cont-menu">
       <nav>
-            <a v-if="is_auth" v-on:click="Products">Mi Cuenta</a>
+            <a v-if="is_auth" v-on:click="Account">Mi Cuenta</a>
+            <a v-if="is_auth" v-on:click="Solicitud">Solicitudes</a>
             <a v-if="is_auth" v-on:click="Home" >Nosotros</a>
             <a v-if="is_auth" v-on:click="loadProductos" >Productos</a>
-            <a v-if="is_auth" v-on:click="LogIn" >Iniciar Sesión</a>
-            <a v-if="is_auth" v-on:click="ProductsAdmin"  >Ad_Productos</a>
-            <a v-if="is_auth" v-on:click="ContactAdmin" >Sol_Contacto</a>
-            <a v-if="is_auth" v-on:click="InstallationAdmin">Sol_Instalaciones</a>
+            <a v-if="is_auth" v-on:click="CloseSesion" >Cerrar Sesión</a>
+            <a v-if="!is_auth" v-on:click="LogIn" >Iniciar Sesión</a>
+            <a v-if="is_admin" v-on:click="ProductsAdmin"  >Ad_Productos</a>
+            <a v-if="is_admin" v-on:click="ContactAdmin" >Sol_Contacto</a>
+            <a v-if="is_admin" v-on:click="InstallationAdmin">Sol_Instalaciones</a>
             </nav>
           <label for="icon1" class="fas fa-times-circle"></label>         
         </div>
@@ -42,30 +43,55 @@
         <img src="@/assets/SnackLogo.png" alt="" class="logo">
     </footer> -->
   <div>
-    <router-view></router-view>
+    <router-view v-on:completedLogIn="completedLogIn"></router-view>
   </div>      
 </template>
 
 <script>
+import gql from "graphql-tag";
+import jwt_decode from "jwt-decode";
+
 export default {
   name: "App",
   data: function() {
       return {
-          is_admin: false,
+          is_admin: true,
           is_auth: true
       }
   },
   methods: {
     loadProductos: function () {
     console.log("antes de router");
-    this.$router.push({ name: "Productos" });
+        this.$router.push({ name: "Productos" });
     },
     Home: function(){
       this.$router.push({ name: "Home" });
-      }, 
+    }, 
     LogIn: function(){
       this.$router.push({ name: "logIn" });
     }, 
+    completedLogIn: function(data){ 
+        localStorage.setItem("email", data.email);
+        localStorage.setItem("is_auth", true);
+        localStorage.setItem("is_admin", true);
+        localStorage.setItem("token_access", data.token_access);
+        localStorage.setItem("token_refresh", data.token_refresh);
+        console.log("login completado");
+        this.$router.push({ name: "Home"});
+        location.reload();
+
+        /*this.$apollo.queries.getAllProducts.refetch();
+        this.is_admin = this.userDetailById.is_admin;
+        console.log(this.is_admin);
+        // userId= jwt_decode(localStorage.getItem("token_refresh")).user_id*/
+
+    },
+    CloseSesion: function(){
+        localStorage.clear()
+    },
+    Account: function(){
+        this.$router.push({ name: "Account" });
+    },
     Contacto: function(){
         this.$router.push({ name: "Contacto" });
     },
@@ -85,7 +111,24 @@ export default {
     }
     
   },
+//   apollo:{
+//       userDetailById: {
+//           query: gql`
+//             query UserDetailById($userId: Int!) {
+//                 userDetailById(userId: $userId) {
+//                 is_admin
+//                 }
+//             }
+//           `,
+//           variables: {
+//               UserId: jwt_decode(localStorage.getItem("token_refresh") || "").user_id,
+//           }
+//       }
+//   },
   created: function(){
+      console.log("123")
+    this.is_auth = localStorage.getItem("is_auth") || false;
+    this.is_admin = localStorage.getItem("is_admin") || false;
     this.$router.push({ name: "Home" });
   }
 };

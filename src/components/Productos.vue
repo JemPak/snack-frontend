@@ -1,6 +1,6 @@
 <template>
-    <div class="imagen-inicio">
-    <img src="@/assets/frutos2.jpg" />
+   <div class="imagen"> 
+    <img src="@/assets/frutos2.jpg">
   </div>
   <nav class="menu-navegacion">
     <h2>Productos:</h2>
@@ -116,8 +116,10 @@ export default {
     },
     Comprar: async function(){
       this.saldo = parseInt(localStorage.getItem("Saldo"));
-      this.lista = (localStorage.getItem("Lista"));
-      await this.$apollo
+      this.lista = localStorage.getItem("Lista");
+      this.email = localStorage.getItem("email");
+      if (localStorage.getItem("is_auth") == "true") {
+        await this.$apollo
         .mutate({
           mutation: gql`
             mutation Mutation($order: order!) {
@@ -126,7 +128,7 @@ export default {
           `,
           variables: {
             "order": {
-              "userEmail": "marta@gmail.com",
+              "userEmail": this.email,
               "products": this.lista,
               "dateCreate": null,
               "balanceOrder": this.saldo,
@@ -140,15 +142,21 @@ export default {
         .catch((error) => {
           alert("Ha ocurrido un error con su orden, intente otra vez en unos momentos, si el problema persiste consulte con un administrador" + error.message);
         });
+      }else{
+        alert("Inicie sesion para registrar su orden")
+      }
+      
     },
     cargarImagen: function(url_image) {
       this.laImagen=url_image;
     },
   }, 
   created: function(){
+      
       console.log("andamo ruleta");
       this.products=localStorage.getItem("Lista") || false;
-      this.suma=localStorage.getItem("Saldo") || false;
+      this.suma = parseInt(localStorage.getItem("Saldo")) || 0;
+      localStorage.setItem("Saldo", JSON.stringify(this.suma));
       if (this.products){
           this.products = JSON.parse(this.products);
           this.products= new Set (this.products);

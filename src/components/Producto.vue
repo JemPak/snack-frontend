@@ -43,6 +43,11 @@ export default {
      methods:{
         
         cargar: function(){
+            if (localStorage.getItem("Saldo")!=false) {
+                this.suma = parseInt(localStorage.getItem("Saldo"));
+            }else{
+                this.suma = 0;
+            }
             if (!this.products.has(this.name)) {
                 this.products.add(this.name);
 
@@ -65,14 +70,11 @@ export default {
         if(localStorage.getItem("Lista")){
             this.products = localStorage.getItem("Lista");
             console.log(this.products+" "+typeof(this.products));
+            this.products = JSON.parse(this.products);
+            this.products= new Set (this.products);
         }else{
             this.products = new Set ();
             console.log(this.products+" "+typeof(this.products));
-        }
-        if (this.products){
-          this.products = JSON.parse(this.products);
-          this.products= new Set (this.products);
-          console.log(this.products+" "+typeof(this.products));
         }
   }
     

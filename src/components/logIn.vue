@@ -1,33 +1,103 @@
 <template>
-<center>
-    <div class="bloque">
-        <h2>¡Bienvenido a SnackTime!</h2>
-        <h3>Ingrese su e-mail o usuario</h3>
-        <h4 color=gray>E-mail o Usuario</h4>
-        <input type="text" class=cuadro>
-        <h4 color=gray>Contraseña</h4>
-        <input type="text" class=cuadro>
-        <button class=ingreso> Ingresar </button>
-        <button class=crear> Crear cuenta </button>
-       <u class="ayuda">¿Olvidaste tu contraseña?</u>
-        <p><u class=ayuda> Necesito ayuda para ingresar a mi cuenta </u></p>
+<!-- <center> -->
+    <div class="container">
+        <form class="bloque" v-on:submit.prevent="logIn">
+            <h2>¡Bienvenido a SnackTime!</h2>
+            <h3>Ingrese su e-mail y Contraseña</h3>
+            <h4 color=gray>E-mail</h4>
+            <input v-model="credentials.email" type="text" class=cuadro>
+            <h4 color=gray>Contraseña</h4>
+            <input v-model="credentials.password" type="password" class=cuadro>
+            <button v-on:click="logIn()" class="ingreso"> Ingresar </button>
+            <button v-on:click="createAccount()" class="crear"> Crear cuenta </button>
+            <u class="ayuda">¿Olvidaste tu contraseña?</u>
+            <p><u class=ayuda> Necesito ayuda para ingresar a mi cuenta </u></p>
+        </form>
     </div>
-</center>
+<!-- </center> -->
 </template>
+<script>
 
+import gql from "graphql-tag";
+
+export default {
+    name: "logIn",
+
+    data: function() {
+        return{
+            credentials: {
+                email: "",
+                password: "",
+            }
+        }
+    },
+    methods: {
+        logIn: async function(){
+            console.log(this.credentials);
+            await this.$apollo
+            .mutate({
+                mutation:gql`
+                    mutation LogIn($credentials: CredentialsInput!) {
+                        logIn(credentials: $credentials) {
+                            refresh
+                            access
+                        }
+                    }
+                `,
+                variables:{
+                    "credentials": {
+                        "email": "marta@gmail.com",
+                        "password": "1234"
+    }
+                },
+            })
+            .then( (result) => {
+                let dataLogIn = {
+                    email: this.credentials.email,
+                    token_access: result.data.logIn.access,
+                    token_refresh: result.data.logIn.refresh,
+                };
+                this.$emit("completedLogIn", dataLogIn);
+            })
+            .catch((error) =>{
+                console.log(error);
+                console.log(this.credentials.email+" "+typeof(this.credentials.email));
+                console.log(this.credentials.password+" "+typeof(this.credentials.password));
+                console.log(JSON.stringify(error, null, 2));
+                alert("credenciales incorrectas!"+error.message);
+                
+            });
+
+        },
+    },
+
+}
+</script>
 
 
 <style>
+.container{
+  position: absolute;
+  width: 800px;
+  top: 66%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* border: 1px solid #8C8C8C; */
+  justify-content: center;
+}
 
 
 .bloque{ 
     width: 500px;
     height: 600px;
-    border-color:orange ;
-    border-width: 0.5mm;
+    border: 5px;
+    border-color:rgb(194, 123, 9);
+    border-width: 0.8mm;
     border-style: solid;
     margin-top: 0.5cm;
-    margin-left: 11.5cm;
+    position: relative;
+    margin-left: 15%;
+    margin-right: 10%;
     margin-bottom: 0.5cm;
     border-style: groove;
     border-radius: 10px;
@@ -36,7 +106,9 @@
     align-items:center;
 
 }
-
+.bloque input{
+    font-size: 15px;
+}
 .bloque h2{
     text-align: center;
     margin: 1cm;
@@ -76,10 +148,15 @@
     height: 50px;
     margin-left: 1cm;
     margin-top: 0.7cm;
-    background-color:  rgb(238, 170, 62);
+    background-color:  #f2b327;
     border-color:  rgb(238, 170, 62);
     border-radius: 10px; 
     font-weight: bold;
+}
+
+.ingreso:hover{
+    cursor: pointer;
+    background-color:  rgb(238, 170, 62);
 }
 
 .crear{
@@ -89,21 +166,26 @@
     height: 50px;
     margin-left: 1cm;
     margin-top: 0.5cm;
-    background-color:  rgb(238, 170, 62);
+    background-color:  #f2b327;
     border-color:  rgb(238, 170, 62);
     border-radius: 10px; 
     font-weight: bold;
 }
 
-
+.crear:hover{
+    cursor: pointer;
+    background-color: rgb(238, 170, 62);
+}
 .ayuda{    
     border: none;
-    color: rgb(238, 170, 62);
+    color: #f2b327;
     text-align: center;
     width: 400px;
-    height: 100000px;
+    /* height: 100000px; */
+    position: relative;
+    top: 10px;
     margin-left: 1cm;
-    margin-top: 1.8cm;
+    margin-top: 3cm;
 }
 
 

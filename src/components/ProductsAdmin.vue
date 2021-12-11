@@ -46,9 +46,9 @@ export default {
     },
 
   methods: {
-      crearProducto: function(){
-          this.$router.push({name: "CreateProduct"});
-      },
+    crearProducto: function(){
+        this.$router.push({name: "CreateProduct"});
+    },
     DeleteProducts: async function(id_producto){
         await this.$apollo
             .mutate({

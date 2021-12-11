@@ -11,11 +11,11 @@ const httpLink = createHttpLink({
 
 const authLink = setContext((_, { headers }) => {
     return {
-        headers: {
-            ...headers,
-            "Authorization": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYzOTI0NDk5NiwianRpIjoiNTU5ZWVhZjViOWQ0NGMzMmE4MGMyYmMzMTdhYjJlODYiLCJ1c2VyX2lkIjoxMH0.mL0q5WwjM2F2hHeyg7X1NSiHA7dU3W4oIC1s9r7qXjA"
-        }
-    }
+      headers: {
+        ...headers,
+        Authorization: localStorage.getItem("token_access") || "",
+      },
+    };
 })
 
 const apolloClient = new ApolloClient({
