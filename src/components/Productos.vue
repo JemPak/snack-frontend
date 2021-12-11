@@ -171,7 +171,6 @@ export default {
 }
 .lista{
   list-style: none;
-  border: solid 1px red;
   position: relative;
   left: 10%;
   margin-left: 50px;
@@ -179,7 +178,6 @@ export default {
 }
 .lista2{
   list-style: none;
-  border: solid 1px red;
   position: relative;
   left: 10%;
   margin-left: 50px;
@@ -243,7 +241,6 @@ export default {
   display: flex;
   justify-content: space-evenly;
   flex-wrap: nowrap;
-  border: solid red;
 }
 .producto {
   position: relative;
@@ -352,7 +349,6 @@ export default {
   justify-content: space-evenly;
   flex-wrap: wrap;
   width: 100%;
-  border: rgb(65, 22, 184) 5px solid;
 }
 .img-productos {
   object-fit: cover;

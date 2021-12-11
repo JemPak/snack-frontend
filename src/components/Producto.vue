@@ -1,9 +1,10 @@
 <template>
 <div class="contenedor2">
-    <div>
+    <div class="imagenProducto">
+        <img :src=imagen class="imgProducto">
     </div>
     <div class="name">
-        <p>{{name}}</p>
+        <p><h1>{{name}}</h1></p>
         <div class="description">
             <p>{{description}}</p>
             <br />
@@ -34,8 +35,9 @@ export default {
             id: localStorage.getItem('idProducto'),
             name: localStorage.getItem('Nombre').slice(1,-1),
             precio: parseInt(localStorage.getItem('Precio')),
-            imagen: localStorage.getItem('Imagen'),
+            imagen: localStorage.getItem('Imagen').slice(1,-1),
             description: localStorage.getItem('Descripcion').slice(1,-1),
+            
         }
     },
      methods:{
@@ -86,16 +88,25 @@ export default {
 }
 
 .contenedor2{
+    margin-top: 2%;
   position: relative;
-  top: 0%;
-  height :auto;
+  top: 50%;
+  height :10%;
   width :95%;
-  left: 0%;
+  left: 3%;
   right: auto;
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
-  /* border: solid red; */
+ border: solid rgb(7, 6, 6);
+ border-radius: 5px;
+}
+.imagenProducto{
+    width: 50%;
+    box-shadow: 0 0 6px rgb(156, 101, 12);
+}
+.imgProducto{
+    width:100%;
 }
 .name {
     position: relative;
