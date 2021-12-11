@@ -55,8 +55,8 @@ export default {
   name: "App",
   data: function() {
       return {
-          is_admin: false,
-          is_auth: false
+          is_admin: true,
+          is_auth: true
       }
   },
   methods: {

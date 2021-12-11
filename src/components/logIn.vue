@@ -36,7 +36,7 @@ export default {
             console.log(this.credentials);
             await this.$apollo
             .mutate({
-                mutation: gql`
+                mutation:gql`
                     mutation LogIn($credentials: CredentialsInput!) {
                         logIn(credentials: $credentials) {
                             refresh
@@ -44,8 +44,9 @@ export default {
                         }
                     }
                 `,
-                variables: {
-                    credentials: this.credentials,
+                variables:{
+                    email: this.credentials.email,
+                    password: this.credentials.password,
                 },
             })
             .then( (result) => {
@@ -54,11 +55,11 @@ export default {
                     token_access: result.data.logIn.access,
                     token_refresh: result.data.logIn.refresh,
                 };
-            this.$emit("completedLogIn", dataLogIn);
+                this.$emit("completedLogIn", dataLogIn);
             })
             .catch((error) =>{
-                alert("credenciales incorrectas!")
                 console.log(error);
+                alert("credenciales incorrectas!")
             });
 
         },
