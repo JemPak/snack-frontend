@@ -80,7 +80,7 @@ export default {
         localStorage.setItem("is_auth", true);
         localStorage.setItem("token_access", data.token_access);
         localStorage.setItem("token_refresh", data.token_refresh);
-        console.log("login completado");
+        alert("login completado");
         this.is_auth = localStorage.getItem("is_auth") || false;
         this.is_admin = localStorage.getItem("is_admin") || true;
         location.reload();
@@ -88,7 +88,6 @@ export default {
         
         // userId= jwt_decode(localStorage.getItem("token_refresh")).user_id
     },
-
 
     CloseSesion: function(){
         localStorage.clear()
@@ -130,7 +129,10 @@ export default {
 //           `,
 //           variables: {
 //               UserId: jwt_decode(localStorage.getItem("token_refresh") || "").user_id,
-//           }
+//           },
+//           skip () {
+//             return this.skipQuery
+//           },
 //       }
 //   },
   created: function(){
