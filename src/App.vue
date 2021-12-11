@@ -82,20 +82,13 @@ export default {
         localStorage.setItem("is_auth", true);
         localStorage.setItem("token_access", data.token_access);
         localStorage.setItem("token_refresh", data.token_refresh);
+        this.user.UserId = jwt_decode(localStorage.getItem("token_refresh")).user_id;
         this.$apollo.queries.userDetailById.refetch();
-        // this.$apollo.queries.userDetailById.skip = true;
         this.is_auth = localStorage.getItem("is_auth") || false;
         console.log(this.userDetailById);
         this.is_admin = this.userDetailById.is_admin
         console.log(this.is_admin);
         this.$router.push({ name: "Home"});
-        
-
-        /*this.$apollo.queries.getAllProducts.refetch();
-        this.is_admin = this.userDetailById.is_admin;
-        console.log(this.is_admin);
-        // userId= jwt_decode(localStorage.getItem("token_refresh")).user_id*/
-
     },
 
     CloseSesion: function(){
@@ -141,14 +134,12 @@ export default {
                   userId: this.user.UserId,
               }
           },
-        //   skip() {
-        //       return this.skipQuery
-        //   }
       }
   },
   created: function(){
     console.log("123")
     if (localStorage.getItem("token_refresh") != null){
+        console.log("estamos dentro de token refresh");
         this.user.UserId = jwt_decode(localStorage.getItem("token_refresh")).user_id;
     }
     console.log("recargo y:" + this.is_admin);

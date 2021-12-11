@@ -2,37 +2,97 @@
     <h1 class="titulo"> </h1>
     <div><img src="@/assets/imagen1.jpg" alt="" class="imagen1"></div>
     <div class="items">
-        <form v-on:submit.prevent="postContacto">
+        <form v-on:submit.prevent="createUser()">
         
             <p>Nombre</p>
-            <input type="email" class="field"> 
+            <input v-model="userInput.name" type="text" class="field"> 
 
             <p>NIT</p>
-            <input type="email" class="field">
-
-            <p>Direccion</p> 
-            <input type="text" class="field"> 
+            <input v-model="userInput.nit" type="number" class="field">
 
             <p>E-mail</p>
-            <input type="text" class="field">
+            <input v-model="userInput.email" type="email" class="field">
 
             <p>Password</p>
-            <input type="text" class="field">
+            <input v-model="userInput.password" type="text" class="field">
+
+            <p>Ciudad</p> 
+            <input v-model="userInput.city" type="text" class="field"> 
 
             <p>Edad</p>
-            <input class="field">
+            <input v-model="userInput.ages" type="number" class="field">
             <br>
 
             <p>Telefono</p>
-            <input class="field">
+            <input v-model="userInput.phone" type="number" class="field">
             <br>
             <br>
 
             <button type="submit" class="enviar"> Crear Cuenta </button>
 
         </form>    
-        </div>
+    </div>
 </template>
+
+<script>
+
+import gql from "graphql-tag";
+
+
+export default {
+    name: "singIn",
+    data: function() {
+        return {
+            userInput: {
+                email: null,
+                name: null,
+                password: null,
+                nit: null,
+                city: null,
+                ages: null,
+                phone: null
+            }
+        }
+    },
+    methods: {
+        createUser: async function(){
+            this.userInput.nit = parseInt(this.userInput.nit);
+            this.userInput.ages = parseInt(this.userInput.ages);
+            this.userInput.phone = parseInt(this.userInput.phone);
+            console.log("createUser")
+            console.log(this.userInput)
+            console.log(this.userInput.email)
+            await this.$apollo.mutate({
+                mutation: gql`
+                    mutation SignUpUser($userInput: SignUpInput) {
+                        signUpUser(userInput: $userInput) {
+                            refresh
+                            access
+                        }
+                    }
+                `,
+                variables: {
+                    userInput: this.userInput,
+                }
+            })
+            .then((result) => {
+                let dataLogIn = {
+                    email: this.userInput.email,
+                    token_access: result.data.signUpUser.access,
+                    token_refresh: result.data.signUpUser.refresh,
+                };
+                console.log(dataLogIn);
+                this.$emit("completedLogIn", dataLogIn);
+            }).catch((error) => {
+                console.log(error);
+                alert("credenciales invalida");
+            });
+        }
+    },
+};
+</script>
+
+
 
 <style>
 .titulo{

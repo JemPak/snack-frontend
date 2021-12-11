@@ -11,14 +11,14 @@
         <table>
             <tr>
                 <td>
-                    <h3>Nombre: <input  type="text" class="field"></h3>
-                    <h3>NIT: <input  type="text" class="field"></h3>
-                    <h3>Correo: <input  type="text" class="field"></h3>
+                    <h3>Nombre: <p class="field"> {{userDetailById.name}} </p></h3>
+                    <h3>NIT: <p class="field"> {{userDetailById.nit}} </p></h3>
+                    <h3>Correo: <p class="field"> {{userDetailById.email}} </p></h3>
                  </td>
                 <td>
-                    <h3>Ciudad: <input  type="text" class="field"></h3>
-                    <h3>Telefono: <input  type="text" class="field"></h3>
-                    <h3>Edad: <input  type="text" class="field"></h3> 
+                    <h3>Ciudad: <input  type="text" :placeholder="accountByUserId.city" class="field"></h3>
+                    <h3>Telefono: <input  type="text" :placeholder="accountByUserId.phone" class="field"></h3>
+                    <h3>Edad: <input  type="text" :placeholder="accountByUserId.ages" class="field"></h3> 
                 </td>
              </tr>
         </table>
@@ -27,26 +27,102 @@
 </template>
 
 <script>
+import gql from "graphql-tag";
+import jwt_decode from "jwt-decode";
+
 export default {
   name: "App",
   data: function() {
       return {
-          tel: "numero",
+          user: {
+              email: localStorage.getItem("email"),
+              ages: null,
+              phone: null,
+              city: null
+          },
+          accountUpdateFields: {},
+          userDetailById: {},
+          accountByUserId: {},
           
       }
+  },
+  methods: {
+      accountUpdateFields: async function(){
+          this.$apollo.mutate({
+              mutation: gql`
+              mutation SignUpUser($user: AccountUpdateFields!) {
+                accountUpdateFields(user: $user) {
+                    id_account
+                    id_client
+                    city
+                    ages
+                    phone
+                    balance
+                    register_date
+                }
+            }
+              `,
+              variables: {
+                  user: this.user
+              }
+          });
+
+      }
+  },
+  apollo: {
+      userDetailById: {
+          query: gql`
+            query Query($userId: Int!) {
+                userDetailById(userId: $userId) {
+                    id_client
+                    name
+                    email
+                    nit
+                    is_admin
+                }
+            }
+          `,
+          variables() {
+              return {
+                userId: jwt_decode(localStorage.getItem("token_refresh")).user_id,
+
+              }
+          },
+      },
+      accountByUserId: {
+        query: gql`
+        query Query($userEmail: String!) {
+            accountByUserId(userEmail: $userEmail) {
+                id_account
+                id_client
+                city
+                phone
+                ages
+                balance
+                register_date
+            }
+        }
+        `,
+        variables() {
+            return {
+                userEmail: this.user.email,
+            }
+        }
+      },
   },
 }
 </script>
 
 <style>
 .info-user{ 
-    width: 500px;
+    width: 1000px;
     height: 500px;
-    border-color:whitesmoke ;
+    left: 100px;
+    border-color:rgb(194, 123, 9) ;
     border-width: 0.5mm;
     border-style: solid;
     margin-top: 0.5cm;
-    margin-left: 11.5cm;
+    margin-left: 5.0cm;
     margin-bottom: 0.5cm;
     border-style: groove;
     border-radius: 10px;
@@ -72,10 +148,14 @@ export default {
     text-align: center;
     margin: 30px;
 }
+
+.botones{
+    margin-left: 2cm;
+}
 .field{
     margin-bottom: 15px;
     width: 400px;
-    border: solid 1px #ccc;
+    border: solid 1px #f2b327;
     padding: 10px;
 }
 
