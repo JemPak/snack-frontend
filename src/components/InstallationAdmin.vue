@@ -1,6 +1,6 @@
 <template>
   <h1 class="titulo">SOLICITUDES DE INSTALACION</h1>
-  <div class="bloque">
+  <div class="bloque1">
     <nav>
       <h2>BUSQUEDA</h2>
       <div class="buscar1">
@@ -9,7 +9,7 @@
           placeholder="Buscar"
           required
           class="fas fa-search icon"
-        />
+        >
       </div>
     </nav>
   </div>

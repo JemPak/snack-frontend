@@ -1,6 +1,7 @@
 <template>
 <div class="contenedor2">
     <div>
+        <img :src=imagen alt="imagen del producto">
     </div>
     <div class="name">
         <p>{{name}}</p>

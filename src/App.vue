@@ -3,7 +3,7 @@
         <div class="icon1">
             <label for="icon1" class="fas fa-bars"></label>
         </div>
-        <img src="@/assets/SnackLogo.png" alt="" class="logo">
+        <img v-on:click="Home" src="@/assets/SnackLogo.png" alt="" class="logo">
         <div class="buscar">
             <input type="text" placeholder="Buscar" required>
             <div class="but">
@@ -48,12 +48,15 @@
 </template>
 
 <script>
+import gql from "graphql-tag";
+import jwt_decode from "jwt-decode";
+
 export default {
   name: "App",
   data: function() {
       return {
           is_admin: false,
-          is_auth: true
+          is_auth: false
       }
   },
   methods: {
@@ -67,8 +70,20 @@ export default {
     LogIn: function(){
       this.$router.push({ name: "logIn" });
     }, 
+    completedLogin: function(data){
+        localStorage.setItem("email", data.email);
+        localStorage.setItem("is_auth", true);
+        localStorage.setItem("token_access", data.token_access);
+        localStorage.setItem("token_refresh", data.token_refresh);
+        console.log("login completado");
+        this.$apollo.queries.getAllProducts.refetch();
+        this.is_admin = this.userDetailById.is_admin;
+        console.log(this.is_admin);
+        // userId= jwt_decode(localStorage.getItem("token_refresh")).user_id
+
+    },
     CloseSesion: function(){
-        
+        localStorage.clear()
     },
     Account: function(){
         this.$router.push({ name: "Account" });
@@ -92,7 +107,23 @@ export default {
     }
     
   },
+//   apollo:{
+//       userDetailById: {
+//           query: gql`
+//             query UserDetailById($userId: Int!) {
+//                 userDetailById(userId: $userId) {
+//                 is_admin
+//                 }
+//             }
+//           `,
+//           variables: {
+//               UserId: jwt_decode(localStorage.getItem("token_refresh") || "").user_id,
+//           }
+//       }
+//   },
   created: function(){
+    this.is_auth = localStorage.getItem("is_auth") || false;
+    this.is_admin = localStorage.getItem("is_admin") || false;
     this.$router.push({ name: "Home" });
   }
 };
@@ -225,6 +256,7 @@ header{
 /*Menú Lateral*/
 #icon1{
     display:none;
+    
 }
 .container-menu{
     position:absolute;
@@ -257,6 +289,7 @@ header{
     opacity:1;
     visibility: visible;
     transform:translateX(0%); 
+    cursor: pointer;
 }
 
 

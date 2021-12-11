@@ -5,7 +5,7 @@
     <button type="submit" class="enviar" style="margin-right: 7.5cm;"> Mis ordenes </button>
     <button type="submit" class="enviar"> Modificar datos </button>
     </div>
-    <div class="bloque">
+    <div class="info-user">
         <h2 class=inf>INFORMACION GENERAL DEL USUARIO</h2>
         <br>
         <table>
@@ -39,7 +39,7 @@ export default {
 </script>
 
 <style>
-.bloque{ 
+.info-user{ 
     width: 500px;
     height: 500px;
     border-color:whitesmoke ;
@@ -53,17 +53,17 @@ export default {
     box-shadow:inset
 }
 
-.bloque h2{
+.info-user h2{
     text-align: center;
     margin: 1cm;
 }
 
-.bloque h3{
+.info-user h3{
     text-align: center;
     margin: 1cm;
 }
 
-.bloque h4{
+.info-user h4{
     text-align:left;
     margin: 1cm;
     color:silver;
