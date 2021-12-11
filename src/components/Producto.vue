@@ -4,7 +4,7 @@
         <img :src=imagen class="imgProducto">
     </div>
     <div class="name">
-        <p><h1>{{name}}</h1></p>
+        <p><h1> {{name}} </h1></p>
         <div class="description">
             <p>{{description}}</p>
             <br />

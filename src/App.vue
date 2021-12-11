@@ -7,13 +7,13 @@
         <div class="buscar">
             <input type="text" placeholder="Buscar" required>
             <div class="but">
-                <i class="fas fa-search icon"></i>
+                <i class="fa-solid fa-telescope"></i>
             </div>
         </div>
         <nav class="nav">
             <button v-if="!is_admin" v-on:click="Home" class="boton">Nosotros</button>
             <button v-if="!is_admin" v-on:click="loadProductos" class="boton">Productos</button>
-            <button v-if="!is_admin" v-on:click="LogIn" class="boton">Iniciar Sesión</button>
+            <button v-if="!is_auth" v-on:click="LogIn" class="boton">Iniciar Sesión</button>
             <button v-if="is_admin" v-on:click="ProductsAdmin" class="boton">Productos</button>
             <button v-if="is_admin" v-on:click="ContactAdmin" class="boton">Contacto</button>
             <button v-if="is_admin" v-on:click="InstallationAdmin" class="boton">Instalaciones</button>
@@ -55,8 +55,7 @@ export default {
   name: "App",
   data: function() {
       return {
-          is_admin: true,
-          is_auth: true
+         
       }
   },
   methods: {
@@ -86,8 +85,14 @@ export default {
         // userId= jwt_decode(localStorage.getItem("token_refresh")).user_id*/
 
     },
+
+
     CloseSesion: function(){
         localStorage.clear()
+        this.is_admin = false;
+        this.is_auth = false;
+        location.reload();
+        this.$router.push({ name: "logIn"});
     },
     Account: function(){
         this.$router.push({ name: "Account" });
@@ -128,7 +133,7 @@ export default {
   created: function(){
       console.log("123")
     this.is_auth = localStorage.getItem("is_auth") || false;
-    this.is_admin = localStorage.getItem("is_admin") || false;
+    this.is_admin = localStorage.getItem("is_admin") || true;
     this.$router.push({ name: "Home" });
   }
 };
@@ -162,21 +167,6 @@ header{
     align-items: center;
     /* border: solid red; */
 }
-
-.fa-search{
-    position: absolute;
-    width: 150px;
-    height: 30px;
-    padding: 0;
-    font-size: 10px;
-    color: black;
-    outline: none;
-    border: 1px solid silver;
-    border-radius: 30px;   
-    margin: 10px 0px;
-    text-align: center;
-}
-
 
 .boton{
     position: relative;
@@ -239,7 +229,6 @@ header{
     font-size: 20px;
     border-radius: 50%;
     cursor: pointer;
-    
 }
 .buscar:hover input{
     width: 240px;
