@@ -39,7 +39,6 @@
 
 <script>
 import gql from "graphql-tag";
-import jwt_decode from "jwt-decode";
 
 export default {
   name: "Productos",
@@ -88,8 +87,6 @@ export default {
       console.log(x);
       localStorage.setItem("Lista", JSON.stringify(x));
       localStorage.setItem("Saldo", JSON.stringify(this.suma));
-      console.log(this.suma)
-      console.log(this.products)
     },
     Quitar: function(precio, nombre){
       if (localStorage.getItem("Saldo")) {
@@ -100,19 +97,13 @@ export default {
         this.suma-=precio;
       }
       const x = Array.from(this.products);
-      console.log(x);
       localStorage.setItem("Lista", JSON.stringify(x));
       localStorage.setItem("Saldo", JSON.stringify(this.suma));
-      console.log(this.suma)
-      console.log(this.products)
     },
     Comprar: async function(){
       const saldo = parseInt(localStorage.getItem("Saldo"));
       const lista = localStorage.getItem("Lista");
       const email = localStorage.getItem("email");
-      console.log(lista);
-      console.log(saldo);
-      console.log(email);
       if (localStorage.getItem("is_auth") == "true") {
         await this.$apollo
         .mutate({
@@ -138,6 +129,26 @@ export default {
           console.log(error);
           alert("Ha ocurrido un error con su orden, intente otra vez en unos momentos, si el problema persiste consulte con un administrador" + error.message);
         });
+        await this.$apollo.mutate({
+          mutation: gql`
+          mutation AccountUpdateBalance($user: AccountUpdateBalance!) {
+            accountUpdateBalance(user: $user) {
+              balance
+            }
+          }
+          `,
+          variables: {
+            user: {
+              email: localStorage.getItem("email"),
+              balance: saldo,
+            }
+          }
+        }).then((result) => {
+          alert("valor de la compra" + saldo)
+
+        }).catch((error) => {
+          console.log(error);
+        });
       }else{
         alert("Inicie sesion para registrar su orden")
       }
@@ -154,7 +165,6 @@ export default {
       if (this.products){
           this.products = JSON.parse(this.products);
           this.products= new Set (this.products);
-          console.log(this.products+" "+typeof(this.products));
 
       }else{
           this.products= new Set();
@@ -176,7 +186,7 @@ export default {
   /* border: solid 1px red; */
   position: relative;
   left: 10%;
-  margin-left: 50px;
+  margin-left: 100px;
   justify-content: space-evenly;
 }
 .lista2{
@@ -237,13 +247,15 @@ export default {
 }
 .contenedor {
   position: relative;
-  top: 40px;
+  margin-top: -13%;
+  margin-left: -180px;
   height :10%;
-  width :60%;
+  width :70%;
   left: 35%;
   display: flex;
   justify-content: space-evenly;
   flex-wrap: nowrap;
+  /* border: 3px solid red; */
 }
 .producto {
   position: relative;

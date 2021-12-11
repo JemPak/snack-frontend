@@ -59,9 +59,6 @@ export default {
             this.userInput.nit = parseInt(this.userInput.nit);
             this.userInput.ages = parseInt(this.userInput.ages);
             this.userInput.phone = parseInt(this.userInput.phone);
-            console.log("createUser")
-            console.log(this.userInput)
-            console.log(this.userInput.email)
             await this.$apollo.mutate({
                 mutation: gql`
                     mutation SignUpUser($userInput: SignUpInput) {
@@ -81,11 +78,11 @@ export default {
                     token_access: result.data.signUpUser.access,
                     token_refresh: result.data.signUpUser.refresh,
                 };
-                console.log(dataLogIn);
+                alert("cuenta creada exitosamente")
                 this.$emit("completedLogIn", dataLogIn);
             }).catch((error) => {
                 console.log(error);
-                alert("credenciales invalida");
+                alert("credenciales invalidas");
             });
         }
     },

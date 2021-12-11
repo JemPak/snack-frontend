@@ -1,11 +1,11 @@
 <template>
-  <h1 class="titulo">INFORMACION GENERAL DEL USUARIO</h1>
+    <h1 class="titulo">INFORMACION GENERAL DEL USUARIO</h1>
     <div class="botones">  
-    <button type="submit" class="enviar" style="margin-right: 7.5cm;"> Mis maquinas </button>
-    <button type="submit" class="enviar" style="margin-right: 7.5cm;"> Mis ordenes </button>
-    <button type="submit" class="enviar"> Modificar datos </button>
+        <button class="enviar" style="margin-right: 7.5cm;"> Mis maquinas </button>
+        <button class="enviar" style="margin-right: 7.5cm;"> Mis ordenes </button>
+        <button v-on:click="accountUpdate" class="enviar"> Modificar datos </button>
     </div>
-    <div class="info-user">
+    <form class="info-user">
         <h2 class=inf>INFORMACION GENERAL DEL USUARIO</h2>
         <br>
         <table>
@@ -16,13 +16,17 @@
                     <h3>Correo: <p class="field"> {{userDetailById.email}} </p></h3>
                  </td>
                 <td>
-                    <h3>Ciudad: <input  type="text" :placeholder="accountByUserId.city" class="field"></h3>
-                    <h3>Telefono: <input  type="text" :placeholder="accountByUserId.phone" class="field"></h3>
-                    <h3>Edad: <input  type="text" :placeholder="accountByUserId.ages" class="field"></h3> 
+                    <h3>Ciudad: <input v-model="user.city" type="text" :placeholder="accountByUserId.city" class="field"></h3>
+                    <h3>Telefono: <input  v-model="user.phone" type="number" :placeholder="accountByUserId.phone" class="field"></h3>
+                    <h3>Edad: <input  v-model="user.ages" type="number" :placeholder="accountByUserId.ages" class="field"></h3> 
                 </td>
              </tr>
         </table>
-    </div>
+        <div class="final">
+            <h3>Balance: <p> {{accountByUserId.balance}} </p></h3>
+            <h3>Fecha creación: <p> {{accountByUserId.register_date.substring(0,12)}} </p></h3>
+        </div>
+    </form>
   
 </template>
 
@@ -47,13 +51,14 @@ export default {
       }
   },
   methods: {
-      accountUpdateFields: async function(){
-          this.$apollo.mutate({
+      accountUpdate: async function(){
+          this.user.ages = parseInt(this.user.ages); 
+          this.user.phone = parseInt(this.user.phone); 
+          console.log(this.user);
+          await this.$apollo.mutate({
               mutation: gql`
               mutation SignUpUser($user: AccountUpdateFields!) {
                 accountUpdateFields(user: $user) {
-                    id_account
-                    id_client
                     city
                     ages
                     phone
@@ -65,6 +70,15 @@ export default {
               variables: {
                   user: this.user
               }
+          })
+          .then((result) =>{
+              alert("actualización de datos exitosa!")
+              this.$apollo.queries.accountByUserId.refetch();
+          }
+
+          ).catch((error) =>{
+              console.log("error al actualizar");
+              console.log(error);
           });
 
       }
@@ -93,8 +107,6 @@ export default {
         query: gql`
         query Query($userEmail: String!) {
             accountByUserId(userEmail: $userEmail) {
-                id_account
-                id_client
                 city
                 phone
                 ages
@@ -110,13 +122,17 @@ export default {
         }
       },
   },
+  created: function(){
+      this.$apollo.queries.accountByUserId.refetch();
+      this.$apollo.queries.userDetailById.refetch();
+  }
 }
 </script>
 
 <style>
 .info-user{ 
     width: 1000px;
-    height: 500px;
+    height: 600px;
     left: 100px;
     border-color:rgb(194, 123, 9) ;
     border-width: 0.5mm;
@@ -161,5 +177,11 @@ export default {
 
 .field:focus{
     border-color: #f2b327;
+}
+.final{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
 }
 </style>

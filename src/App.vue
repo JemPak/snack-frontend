@@ -77,7 +77,6 @@ export default {
       this.$router.push({ name: "logIn" });
     }, 
     completedLogIn: function(data){ 
-        console.log(data);
         localStorage.setItem("email", data.email);
         localStorage.setItem("is_auth", true);
         localStorage.setItem("token_access", data.token_access);
@@ -85,9 +84,7 @@ export default {
         this.user.UserId = jwt_decode(localStorage.getItem("token_refresh")).user_id;
         this.$apollo.queries.userDetailById.refetch();
         this.is_auth = localStorage.getItem("is_auth") || false;
-        console.log(this.userDetailById);
         this.is_admin = this.userDetailById.is_admin
-        console.log(this.is_admin);
         this.$router.push({ name: "Home"});
     },
 
@@ -139,12 +136,9 @@ export default {
   created: function(){
     console.log("123")
     if (localStorage.getItem("token_refresh") != null){
-        console.log("estamos dentro de token refresh");
         this.user.UserId = jwt_decode(localStorage.getItem("token_refresh")).user_id;
     }
-    console.log("recargo y:" + this.is_admin);
     this.is_auth = localStorage.getItem("is_auth") || false;
-    // this.is_admin = localStorage.getItem("is_admin") || false;
     this.$router.push({ name: "Home" });
   }
 };
