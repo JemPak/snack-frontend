@@ -26,29 +26,53 @@ export default {
 
     data: function(){
         return {
+            products: new Set(),
+            suma:0,
+            costo:0,
             //suma:localStorage.getItem("Saldo"),
             //products:localStorage.getItem('Lista'),
             id: localStorage.getItem('idProducto'),
             name: localStorage.getItem('Nombre').slice(1,-1),
-            precio: localStorage.getItem('Precio'),
+            precio: parseInt(localStorage.getItem('Precio')),
             imagen: localStorage.getItem('Imagen'),
             description: localStorage.getItem('Descripcion').slice(1,-1),
         }
     },
      methods:{
+        
         cargar: function(){
-            
+            if (!this.products.has(this.name)) {
+                this.products.add(this.name);
 
-            /*if (this.products.has(nombre)) {
-                this.products.add(nombre);
-                this.suma+=precio;
+                this.suma+=this.precio;
+            }else {
+                alert("El producto "+this.name+" ya esta en el carrito!");
             }
-            localStorage.setItem("Lista", JSON.stringify(products));
-            localStorage.setItem("Saldo", JSON.stringify(suma));
+            const x = Array.from(this.products);
+            console.log(x);
+            localStorage.setItem("Lista", JSON.stringify(x));
+            localStorage.setItem("Saldo", JSON.stringify(this.suma));
             console.log(this.suma)
-            console.log(this.products)*/
+            console.log(this.products)
+            
         }
     },
+    created: function(){
+        this.suma = parseInt(localStorage.getItem("Saldo"));
+        console.log(this.suma+" "+typeof(this.suma));
+        if(localStorage.getItem("Lista")){
+            this.products = localStorage.getItem("Lista");
+            console.log(this.products+" "+typeof(this.products));
+        }else{
+            this.products = new Set ();
+            console.log(this.products+" "+typeof(this.products));
+        }
+        if (this.products){
+          this.products = JSON.parse(this.products);
+          this.products= new Set (this.products);
+          console.log(this.products+" "+typeof(this.products));
+        }
+  }
     
 }
 </script>

@@ -5,13 +5,13 @@
   <nav class="menu-navegacion">
     <h2>Productos:</h2>
     <ul>
-      <li class="lista" v-for="items in products" v-bind:key=items>
+      <li class="lista2" v-for="items in products" v-bind:key=items>
         <p>{{items}}</p>
       </li>
     </ul>
       <p>{{suma}}</p>
       <br />
-      <button class="but4" v-on:click="Comprar(item.price, item.name)">Completar Compra</button>
+      <button class="but4" v-on:click="Comprar">Completar Compra</button>
   </nav>
 
   <section class="gallery">
@@ -49,6 +49,13 @@ export default {
       getAllProducts:[],
       products: new Set(),
       suma:0,
+      createOrder:{
+        "userEmail": "marta@gmail.com",
+        "products": this.products,
+        "dateCreate": "",
+        "balanceOrder": "",
+        "idMachine": ""
+      },
       
     };
   },
@@ -78,6 +85,9 @@ export default {
 			this.$router.push({ name: "Producto"});
 		},
     cargar: function(precio, nombre){
+      if (localStorage.getItem("Saldo")) {
+        this.suma = parseInt(localStorage.getItem("Saldo"));
+      }
       if (!this.products.has(nombre)) {
         this.products.add(nombre);
         this.suma+=precio;
@@ -90,39 +100,46 @@ export default {
       console.log(this.products)
     },
     Quitar: function(precio, nombre){
+      if (localStorage.getItem("Saldo")) {
+        this.suma = parseInt(localStorage.getItem("Saldo"));
+      }
       if (this.products.has(nombre)) {
         this.products.delete(nombre);
         this.suma-=precio;
       }
-      localStorage.setItem("Lista", JSON.stringify(this.products));
+      const x = Array.from(this.products);
+      console.log(x);
+      localStorage.setItem("Lista", JSON.stringify(x));
       localStorage.setItem("Saldo", JSON.stringify(this.suma));
       console.log(this.suma)
       console.log(this.products)
     },
-    Compra: async function(){
-      /*await this.$apollo
+    Comprar: async function(){
+      this.saldo = parseInt(localStorage.getItem("Saldo"));
+      this.lista = (localStorage.getItem("Lista"));
+      await this.$apollo
         .mutate({
           mutation: gql`
-            mutation($transaction: TransactionInput!) {
-              createTransaction(transaction: $transaction) {
-                date
-                id
-                usernameDestiny
-                usernameOrigin
-                value
-              }
+            mutation Mutation($order: order!) {
+              createOrder(order: $order)
             }
           `,
           variables: {
-            transaction: this.createTransaction,
+            "order": {
+              "userEmail": "marta@gmail.com",
+              "products": this.lista,
+              "dateCreate": null,
+              "balanceOrder": this.saldo,
+              "idMachine": 2
+            }
           },
         })
         .then((result) => {
-          alert("Transacción Realizada de Manera Correcta, Revise Historial");
+          alert("Orden creada sastisfactoriamente!");
         })
         .catch((error) => {
-          alert("Saldo Insuficiente o Destino Incorrecto");
-        });*/
+          alert("Ha ocurrido un error con su orden, intente otra vez en unos momentos, si el problema persiste consulte con un administrador" + error.message);
+        });
     },
     cargarImagen: function(url_image) {
       this.laImagen=url_image;
@@ -135,14 +152,12 @@ export default {
       if (this.products){
           this.products = JSON.parse(this.products);
           this.products= new Set (this.products);
+          console.log(this.products+" "+typeof(this.products));
 
       }else{
           this.products= new Set();
       }
-      /*
-      if(this.suma){
-        suma=0;
-      }*/
+
   }
 };
 </script>
@@ -161,6 +176,13 @@ export default {
   left: 10%;
   margin-left: 50px;
   justify-content: space-evenly;
+}
+.lista2{
+  list-style: none;
+  border: solid 1px red;
+  position: relative;
+  left: 10%;
+  margin-left: 50px;
 }
 .imagen-inicio {
   width: 1340px;
