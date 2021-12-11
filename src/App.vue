@@ -43,7 +43,12 @@
         <img src="@/assets/SnackLogo.png" alt="" class="logo">
     </footer> -->
   <div>
-    <router-view></router-view>
+    <router-view
+    v-on:completedLogIn="completedLogIn"
+    v-on:completedSignUp="completedSignUp"
+    v-on:logOut="logOut"
+    >
+    </router-view>
   </div>      
 </template>
 
@@ -70,15 +75,16 @@ export default {
     LogIn: function(){
       this.$router.push({ name: "logIn" });
     }, 
-    completedLogin: function(data){
+    completedLogIn: function(data){
+        console.log(data);
         localStorage.setItem("email", data.email);
         localStorage.setItem("is_auth", true);
         localStorage.setItem("token_access", data.token_access);
         localStorage.setItem("token_refresh", data.token_refresh);
         console.log("login completado");
-        this.$apollo.queries.getAllProducts.refetch();
-        this.is_admin = this.userDetailById.is_admin;
-        console.log(this.is_admin);
+        // this.$apollo.queries.getAllProducts.refetch();
+        // this.is_admin = this.userDetailById.is_admin;
+        // console.log(this.is_admin);
         // userId= jwt_decode(localStorage.getItem("token_refresh")).user_id
 
     },

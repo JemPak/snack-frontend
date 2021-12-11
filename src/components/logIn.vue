@@ -1,7 +1,7 @@
 <template>
 <!-- <center> -->
     <div class="container">
-        <form class="bloque">
+        <form class="bloque" v-on:submit.prevent="logIn">
             <h2>¡Bienvenido a SnackTime!</h2>
             <h3>Ingrese su e-mail y Contraseña</h3>
             <h4 color=gray>E-mail</h4>
@@ -45,19 +45,21 @@ export default {
                     }
                 `,
                 variables:{
-                    email: this.credentials.email,
-                    password: this.credentials.password,
+                    credentials: this.credentials,
                 },
             })
             .then( (result) => {
+                console.log("aquí");
                 let dataLogIn = {
                     email: this.credentials.email,
                     token_access: result.data.logIn.access,
                     token_refresh: result.data.logIn.refresh,
                 };
+                console.log(dataLogIn);
                 this.$emit("completedLogIn", dataLogIn);
             })
             .catch((error) =>{
+                console.log(JSON.stringify(error, null, 1));
                 console.log(error);
                 alert("credenciales incorrectas!")
             });
