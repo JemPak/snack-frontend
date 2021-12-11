@@ -7,7 +7,7 @@
         <div class="buscar">
             <input type="text" placeholder="Buscar" required>
             <div class="but">
-                <i class="fas fa-search icon"></i>
+                <i class="fa-solid fa-telescope"></i>
             </div>
         </div>
         <nav class="nav">
@@ -173,21 +173,6 @@ header{
     /* border: solid red; */
 }
 
-.fa-search{
-    position: absolute;
-    width: 150px;
-    height: 30px;
-    padding: 0;
-    font-size: 10px;
-    color: black;
-    outline: none;
-    border: 1px solid silver;
-    border-radius: 30px;   
-    margin: 10px 0px;
-    text-align: center;
-}
-
-
 .boton{
     position: relative;
     top: 8px;
@@ -249,7 +234,6 @@ header{
     font-size: 20px;
     border-radius: 50%;
     cursor: pointer;
-    
 }
 .buscar:hover input{
     width: 240px;
