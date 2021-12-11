@@ -1,6 +1,6 @@
 <template>
     <h1 class="titulo"> </h1>
-    <div><img src="resources/imagen1.jpg" alt="" class="imagen1"></div>
+    <div><img src="@/assets/imagen1.jpg" alt="" class="imagen1"></div>
     <div class="items">
         <form v-on:submit.prevent="postContacto">
         
@@ -13,13 +13,13 @@
             <p>Direccion</p> 
             <input type="text" class="field"> 
 
-            <p>e-mail</p>
+            <p>E-mail</p>
             <input type="text" class="field">
 
             <p>Password</p>
             <input type="text" class="field">
 
-            <p>Age</p>
+            <p>Edad</p>
             <input class="field">
             <br>
 

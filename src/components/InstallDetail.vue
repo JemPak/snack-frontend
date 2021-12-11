@@ -1,5 +1,5 @@
 <template>
-        <h1 class="titulo2">RESPUESTAS A SOLICITUD</h1>
+        <h1 class="titulo2">RESPUESTAS A Instalaciones</h1>
     <div class="bloque2">
         <h3>Codigo Solicitud: <input disabled type="text" class="field" ></h3>
         <h3>Fecha de Solicitud: <input disabled type="text" class="field"></h3>

@@ -93,8 +93,8 @@ export default {
         localStorage.clear()
         this.is_admin = false;
         this.is_auth = false;
-        location.reload();
         this.$router.push({ name: "logIn"});
+        // location.reload();
     },
     Account: function(){
         this.$router.push({ name: "Account" });

@@ -171,7 +171,7 @@ export default {
 }
 .lista{
   list-style: none;
-  border: solid 1px red;
+  /* border: solid 1px red; */
   position: relative;
   left: 10%;
   margin-left: 50px;
@@ -179,7 +179,7 @@ export default {
 }
 .lista2{
   list-style: none;
-  border: solid 1px red;
+  /* border: solid 1px red; */
   position: relative;
   left: 10%;
   margin-left: 50px;
@@ -243,7 +243,7 @@ export default {
   display: flex;
   justify-content: space-evenly;
   flex-wrap: nowrap;
-  border: solid red;
+  /* border: solid red; */
 }
 .producto {
   position: relative;

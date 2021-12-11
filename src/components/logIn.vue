@@ -63,6 +63,9 @@ export default {
             });
 
         },
+        createAccount: function(){
+            this.$router.push({ name: "signIn" });
+        },
     },
 
 }
