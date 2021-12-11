@@ -63,7 +63,7 @@ export default {
             })
             .then((result) => {
             alert("Borrado exitoso");
-            })
+            })  
             .catch ((error) => {
                 alert("Ha ocurrido algo inesperado, por favor intente nuevamente mas tarde");
                 console.log(JSON.stringify(error, null, 2));
@@ -86,7 +86,11 @@ export default {
             } 
         `
     }
-  },  
+  },
+  
+  created: function(){
+      this.$apollo.queries.getAllProducts.refetch();
+  }
 };
 </script>
 

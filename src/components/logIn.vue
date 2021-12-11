@@ -33,7 +33,6 @@ export default {
     },
     methods: {
         logIn: async function(){
-            console.log(this.credentials);
             await this.$apollo
             .mutate({
                 mutation:gql`
@@ -49,7 +48,7 @@ export default {
                 },
             })
             .then( (result) => {
-                console.log("aquí");
+                console.log("respuesta");
                 let dataLogIn = {
                     email: this.credentials.email,
                     token_access: result.data.logIn.access,
@@ -62,6 +61,7 @@ export default {
                 console.log(JSON.stringify(error, null, 1));
                 console.log(error);
                 alert("credenciales incorrectas!")
+                console.log(JSON.stringify(error, null, 2));
             });
 
         },
